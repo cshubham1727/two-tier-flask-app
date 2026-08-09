@@ -22,11 +22,13 @@ pipeline {
             }
         }
 
-        stage("Build") {
+       stage("Build") {
             steps {
-                sh "docker build -t two-tier-flask-app ."
-            }
+              script {
+                docker_build(imageName: "two-tier-flask-app")
         }
+    }
+}
 
         stage("Test") {
             steps {
