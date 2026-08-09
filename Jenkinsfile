@@ -1,21 +1,24 @@
 @Library("Shared") _
+
 pipeline {
 
     agent { label "dev" }
 
     stages {
 
-       stage("Code Clone") {
+        stage("Code Clone") {
             steps {
-               script{
-                   clone ("https://github.com/cshubham1727/two-tier-flask-app", "master")
+                script {
+                    clone("https://github.com/cshubham1727/two-tier-flask-app", "master")
+                }
             }
-         }
+        }
 
-        stage("Trivy File System Scan"){
-            steps{
-               script{
-                   trivy_fs()
+        stage("Trivy File System Scan") {
+            steps {
+                script {
+                    trivy_fs()
+                }
             }
         }
 
@@ -33,8 +36,9 @@ pipeline {
 
         stage('Push to Docker Hub') {
             steps {
-                script{
+                script {
                     docker_push("dockerHubCreds", "two-tier-flask-app")
+                }
             }
         }
 
@@ -61,5 +65,4 @@ pipeline {
             )
         }
     }
-  }
 }
