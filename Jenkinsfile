@@ -36,13 +36,16 @@ pipeline {
             }
         }
 
-        stage('Push to Docker Hub') {
+         stage("Push to Docker Hub") {
             steps {
                 script {
-                    docker_push("dockerHubCreds", "two-tier-flask-app")
-                }
-            }
+                   docker_push(
+                     imageName: "two-tier-flask-app",
+                      imageTag: "latest"
+            )
         }
+    }
+}
 
         stage("Deploy") {
             steps {
