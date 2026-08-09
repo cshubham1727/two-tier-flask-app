@@ -1,7 +1,6 @@
-@Library("Shared") _
 pipeline{
     
-    agent { label "dev"};
+    agent { label "dev"}
     
     stages{
         stage("Code Clone"){
@@ -11,24 +10,16 @@ pipeline{
                }
             }
         }
-        stage("Trivy File System Scan"){
-            steps{
-                script{
-                    trivy_fs()
-                }
-            }
-        }
+        
         stage("Build"){
             steps{
                 sh "docker build -t two-tier-flask-app ."
             }
-            
         }
         stage("Test"){
             steps{
                 echo "Developer / Tester tests likh ke dega..."
             }
-            
         }
         stage("Push to Docker Hub"){
             steps{
@@ -44,22 +35,4 @@ pipeline{
         }
     }
 
-post{
-        success{
-            script{
-                emailext from: 'choudhary7763@gmail.com',
-                to: 'choudhary7763@gmail.com',
-                body: 'Build success for Demo CICD App',
-                subject: 'Build success for Demo CICD App'
-            }
-        }
-        failure{
-            script{
-                emailext from: 'choudhary7763@gmail.com',
-                to: 'choudhary7763@gmail.com',
-                body: 'Build Failed for Demo CICD App',
-                subject: 'Build Failed for Demo CICD App'
-            }
-        }
     }
-}
